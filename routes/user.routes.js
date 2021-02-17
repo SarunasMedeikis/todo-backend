@@ -4,7 +4,7 @@ let User = require("../models/user.model");
 //For authentication
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const authentication = require("../middleware/authentication");
 router.get("/", function (req, res) {
   User.find()
     .then((users) => res.send(users))
@@ -63,4 +63,12 @@ router.post("/signin", async (req, res) => {
     );
 });
 
+//USING MIDDLEWARE AUTHENTICATION FUNCTION
+router.get("/profile", authentication, async (req, res) => {
+  User.findById(req.user.id)
+    .then((user) => {
+      res.status(200).send(user);
+    })
+    .catch((err) => res.status(400).send(`Error fetching user : ${err}`));
+});
 module.exports = router;
