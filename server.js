@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 
 //ROUTES
 const userRoutes = require("./routes/user.routes");
+const postRoutes = require("./routes/post.routes");
 
 //Connect mongodb
 mongoose.connect(process.env.MONGODB_DB, {
@@ -26,6 +27,7 @@ db.once("open", function () {
 
 //Express routes!
 app.use("/users", userRoutes);
+app.use("/todos", postRoutes);
 
 app.listen(port, () => {
   console.log(`Todo app listening at http://localhost:${port}`);
